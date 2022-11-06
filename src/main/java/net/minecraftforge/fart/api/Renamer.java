@@ -41,6 +41,7 @@ public interface Renamer {
         Builder threads(int value);
         Builder logger(Consumer<String> out);
         Builder debug(Consumer<String> debug);
+        Builder copy();
         Renamer build();
     }
 }

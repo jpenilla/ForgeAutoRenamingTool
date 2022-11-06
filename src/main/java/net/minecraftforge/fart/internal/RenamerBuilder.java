@@ -42,6 +42,19 @@ public class RenamerBuilder implements Builder {
     private Consumer<String> logger = System.out::println;
     private Consumer<String> debug = s -> {};
 
+    public RenamerBuilder() {
+    }
+
+    private RenamerBuilder(File input, File output, List<File> libraries, List<Transformer.Factory> transformerFactories, int threads, Consumer<String> logger, Consumer<String> debug) {
+        this.input = input;
+        this.output = output;
+        this.libraries.addAll(libraries);
+        this.transformerFactories.addAll(transformerFactories);
+        this.threads = threads;
+        this.logger = logger;
+        this.debug = debug;
+    }
+
     @Override
     public Builder input(File value) {
         this.input = value;
@@ -98,6 +111,11 @@ public class RenamerBuilder implements Builder {
     public Builder debug(Consumer<String> debug) {
         this.debug = requireNonNull(debug, "debug");
         return this;
+    }
+
+    @Override
+    public Builder copy() {
+        return new RenamerBuilder(input, output, libraries, transformerFactories, threads, logger, debug);
     }
 
     @Override
